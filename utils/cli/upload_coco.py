@@ -34,5 +34,5 @@ for filename in sorted(os.listdir(dir)):
             print("Uploading...")
             images = [os.path.join(images_dir, file) for file in sorted(os.listdir(images_dir))]
             run(['--auth', credentials, '--server-host', 'localhost', '--server-port', '8080', 'create', '--labels', json.dumps(labels),
-                 '--annotation_path', annotations_path, '--annotation_format', 'COCO 1.0', '--project_id', project_id, '--image_quality', '100',
+                 '--annotation_path', annotations_path, '--annotation_format', 'COCO 1.0', '--project_id', project_id, '--image_quality', '70',
                  filename, 'local', images])
