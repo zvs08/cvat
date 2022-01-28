@@ -31,6 +31,6 @@ for filename in sorted(os.listdir(dir)):
     filepath = os.path.join(dir, filename)
     if os.path.isdir(filename):
         resources = [filepath + "/" + file for file in os.listdir(filepath)]
-        run(['--auth', credentials, '--server-host', 'localhost', '--server-port', '8080', 'create', '--labels', json.dumps(labels), '--project_id', project_id, '--image_quality', '80', filename, 'local', resources])
+        run(['--auth', credentials, '--server-host', 'localhost', '--server-port', '8080', 'create', '--labels', json.dumps(labels), '--project_id', project_id, '--image_quality', '100', filename, 'local', resources])
     else:
-        run(['--auth', credentials, '--server-host', 'localhost', '--server-port', '8080', 'create', '--labels', json.dumps(labels), '--project_id', project_id, '--image_quality', '80', filename, 'local', filepath])
+        run(['--auth', credentials, '--server-host', 'localhost', '--server-port', '8080', 'create', '--labels', json.dumps(labels), '--project_id', project_id, '--image_quality', '100', filename, 'local', filepath])
