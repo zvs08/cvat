@@ -29,8 +29,8 @@ def video_to_images(dir, out_dir):
             if not os.path.isdir(out_path):
                 os.mkdir(out_path)
                 os.mkdir(os.path.join(out_path, 'images'))
-            image_path_pattern = os.path.join(out_path, 'images', 'frame_%06d.jpg')
-            cmd_ffmpeg = ['ffmpeg', '-i', path, image_path_pattern]
+            image_path_pattern = os.path.join(out_path, 'images', 'frame_%06d.PNG')
+            cmd_ffmpeg = ['ffmpeg', '-i', path, '-start_number', '0', image_path_pattern]
 
             if subprocess.run(cmd_ffmpeg).returncode == 0:
                 print("FFMpeg finished successfully")
