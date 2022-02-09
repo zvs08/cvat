@@ -6,7 +6,6 @@ import subprocess
 def video_to_images(dir, out_dir):
     for filename in sorted(os.listdir(dir)):
         path = os.path.join(dir, filename)
-        print("processing " + filename + "...")
         if os.path.isfile(path):
             out_path = os.path.join(out_dir, filename)
             print("converting " + filename + "...")
