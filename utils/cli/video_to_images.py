@@ -7,7 +7,7 @@ def video_to_images(dir, out_dir):
     for filename in sorted(os.listdir(dir)):
         path = os.path.join(dir, filename)
         if os.path.isfile(path):
-            out_path = os.path.join(out_dir, filename)
+            out_path = os.path.join(out_dir, filename).lower()
             print("converting " + filename + "...")
             if not os.path.isdir(out_path):
                 os.mkdir(out_path)
