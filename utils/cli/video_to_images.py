@@ -3,6 +3,23 @@ import os
 import sys
 import subprocess
 
+# Converts multiple video files to images in corresponding individual folder:
+# - dir
+#   - IMG_0152-11.75.mp4
+#   - IMG_1916-18.75.mp4
+#
+# - out_dir
+#   - img_0152-11.75.mp4
+#       - images
+#           - frame_000001.jpg
+#           - frame_000002.jpg
+#           - ...
+#   - img_1916-18.75.mp4
+#       - images
+#           - frame_000001.jpg
+#           - frame_000002.jpg
+#           - ...
+#
 def video_to_images(dir, out_dir):
     for filename in sorted(os.listdir(dir)):
         path = os.path.join(dir, filename)
