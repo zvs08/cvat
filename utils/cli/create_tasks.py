@@ -22,6 +22,7 @@ from cli import run
 #   - video_2
 #       - ...
 #
+
 dir = sys.argv[1]
 project_id = f"{sys.argv[2]}"
 credentials = sys.argv[3] if len(sys.argv) > 3 else 'admin:admin'
