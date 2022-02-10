@@ -22,8 +22,8 @@ inner_path = os.path.join('annotations', 'instances_default.json')
 def extract_annotations(dir, out_dir):
     for filename in sorted(os.listdir(dir)):
         path = os.path.join(dir, filename)
-        if os.path.isfile(path) and path.endswith('coco 1.0.zip'):
-            video_name_match = re.search('task_(.*)-\\d+_\\d+_.+', filename, re.IGNORECASE)
+        if os.path.isfile(path):
+            video_name_match = re.search('task_(.*)-\\d+_\\d+_.+coco 1\\.0.*\\.zip', filename, re.IGNORECASE)
             if video_name_match:
                 video_name = video_name_match.group(1)
                 print("extracting " + video_name + "...")
