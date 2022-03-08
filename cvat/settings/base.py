@@ -111,8 +111,7 @@ INSTALLED_APPS = [
     'dj_pagination',
     'rest_framework',
     'rest_framework.authtoken',
-    'django_filters',
-    'drf_yasg',
+    'drf_spectacular',
     'rest_auth',
     'django.contrib.sites',
     'allauth',
@@ -156,18 +155,19 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_VERSIONING_CLASS':
         'rest_framework.versioning.AcceptHeaderVersioning',
-    'ALLOWED_VERSIONS': ('1.0', '2.0'),
+    'ALLOWED_VERSIONS': ('2.0'),
     'DEFAULT_VERSION': '2.0',
     'VERSION_PARAM': 'version',
     'DEFAULT_PAGINATION_CLASS':
         'cvat.apps.engine.pagination.CustomPagination',
     'PAGE_SIZE': 10,
     'DEFAULT_FILTER_BACKENDS': (
-        'rest_framework.filters.SearchFilter',
-        'django_filters.rest_framework.DjangoFilterBackend',
-        'rest_framework.filters.OrderingFilter',
+        'cvat.apps.engine.filters.SearchFilter',
+        'cvat.apps.engine.filters.OrderingFilter',
+        'cvat.apps.engine.filters.JsonLogicFilter',
         'cvat.apps.iam.filters.OrganizationFilterBackend'),
 
+    'SEARCH_PARAM': 'search',
     # Disable default handling of the 'format' query parameter by REST framework
     'URL_FORMAT_OVERRIDE': 'scheme',
     'DEFAULT_THROTTLE_CLASSES': [
@@ -177,6 +177,7 @@ REST_FRAMEWORK = {
         'anon': '100/minute',
     },
     'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {
@@ -442,12 +443,6 @@ LOCAL_LOAD_MAX_FILES_SIZE = 512 * 1024 * 1024  # 512 MB
 RESTRICTIONS = {
     'user_agreements': [],
 
-    # this setting limits the number of tasks for the user
-    'task_limit': None,
-
-    # this setting limits the number of projects for the user
-    'project_limit': None,
-
     # this setting reduces task visibility to owner and assignee only
     'reduce_task_visibility': False,
 
@@ -492,7 +487,44 @@ TUS_DEFAULT_CHUNK_SIZE = 104857600  # 100 mb
 # How django uses X-Forwarded-Proto - https://docs.djangoproject.com/en/2.2/ref/settings/#secure-proxy-ssl-header
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-
 # Django-sendfile requires to set SENDFILE_ROOT
 # https://github.com/moggers87/django-sendfile2
 SENDFILE_ROOT = BASE_DIR
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'CVAT REST API',
+    'DESCRIPTION': 'REST API for Computer Vision Annotation Tool (CVAT)',
+    # Statically set schema version. May also be an empty string. When used together with
+    # view versioning, will become '0.0.0 (v2)' for 'v2' versioned requests.
+    # Set VERSION to None if only the request version should be rendered.
+    'VERSION': None,
+    'CONTACT': {
+        'name': 'Nikita Manovich',
+        'url': 'https://github.com/nmanovic',
+        'email': 'nikita.manovich@intel.com',
+    },
+    'LICENSE': {
+        'name': 'MIT License',
+        'url': 'https://en.wikipedia.org/wiki/MIT_License',
+    },
+    'SERVE_PUBLIC': True,
+    'SCHEMA_COERCE_PATH_PK_SUFFIX': True,
+    'SCHEMA_PATH_PREFIX': '/api',
+    'SCHEMA_PATH_PREFIX_TRIM': False,
+    'SERVE_PERMISSIONS': ['rest_framework.permissions.IsAuthenticated'],
+    # https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'displayOperationId': True,
+        'displayRequestDuration': True,
+        'filter': True,
+        'showExtensions': True,
+    },
+    'TOS': 'https://www.google.com/policies/terms/',
+    'EXTERNAL_DOCS': {
+        'description': 'CVAT documentation',
+        'url': 'https://openvinotoolkit.github.io/cvat/docs/',
+    },
+    # OTHER SETTINGS
+    # https://drf-spectacular.readthedocs.io/en/latest/settings.html
+}
